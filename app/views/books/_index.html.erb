@@ -20,6 +20,23 @@
         <td id="favorite_buttons_<%= book.id %>">
             <%= render "favorites/favorite", book: book %>
         </td>
+        
+        <td>
+          <div id="star-rate<%= book.id%>"></td>
+          
+          <script>
+            $('#star-rate<%= book.id %>').empty();
+            $('#star-rate<%= book.id%>').raty({        // ('div').data.('raty').score/half/etc...();という意味で定義している
+              size      : 36,
+              starOff   : '<%= asset_path('star-off.png') %>',
+              starOn    : '<%= asset_path('star-on.png') %>',
+              half      : false,
+              readOnly: true,
+              score: '<%= book.star %>',
+            });
+          </script>
+          </div>  
+        
       </tr>
     <% end %>
   </tbody>
