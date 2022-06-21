@@ -1,0 +1,40 @@
+<table class='table'>
+  <tr><%= image_tag user.get_profile_image, size:'100x100' %></tr>
+  <tr>
+	  <th>name</th>
+	  <th><%= user.name %></th>
+  </tr>
+  <tr>
+	  <th>introduction</th>
+	  <th><%= user.introduction %></th>
+  </tr>
+  <tr>
+	  <th>follows</th>
+	  <th><%= link_to user.followings.count, user_followings_path(user) %></th>
+	</tr>
+	<tr>
+	  <th>followers</th>
+	  <th><%= link_to user.followers.count, user_followers_path(user) %></th>
+	</tr>
+  <tr>
+    <th nowrap>
+        <% unless user == current_user %>
+        <%# if current_user.following?(user) %>
+        <% if user.followed_by?(current_user) %>
+        <%= link_to user_relationships_path(user.id), method: :delete do %>
+        <button class = "btn btn-sm btn-danger">フォロー外す</button>
+        <% end %>
+        <% else %>
+        <%= link_to user_relationships_path(user.id), method: :post do %>
+        <button class = "btn btn-sm btn-success">フォローする</button>
+        <% end %>
+        <% end %>
+        <% end %>
+    </tr>
+</table>
+　
+<div class='row'>
+  <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block edit_user_#{user.id}" do %>
+    <i class="fas fa-user-cog"></i>
+  <% end %>
+</div>
