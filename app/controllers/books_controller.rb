@@ -14,7 +14,7 @@ class BooksController < ApplicationController
   #     @books = Book.old
    elsif params[:star_count]
       @books = Book.star_count
-    else
+   else
       @books = Book.all
    end
       @book = Book.new

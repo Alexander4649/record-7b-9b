@@ -17,6 +17,8 @@ class Book < ApplicationRecord
       @book = Book.all
     end
   end
+  # nameは検索対象であるusersテーブル内のカラム名
+  # titleは検索対象であるbooksテーブル内のカラム名
   
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}

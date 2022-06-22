@@ -19,14 +19,14 @@
           <td><%= @book.body %></td>
           
           <!--タグ機能(リンク付)-->
-          <td><%= link_to @book.tag, %></td>
-          
-          <!--コメント数カウント機能-->
-          <td>コメント数: <%= @book.book_comments.count %></td>
+          <td><%= link_to @book.tag,search_path %></td>
           
           <!--イイね機能-->
           <td id="favorite_buttons_<%= @book.id %>">
               <%= render "favorites/favorite", book: @book %></td>
+          
+          <!--コメント数カウント機能-->
+          <td>コメント数: <%= @book.book_comments.count %></td>
           
           <!--星評価設定-->
           <td>
