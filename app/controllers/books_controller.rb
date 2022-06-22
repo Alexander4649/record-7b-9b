@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
-  before_action :authenticate_user!
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user! #ログイン中か確認
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy] #ログイン中のユーザーにのみ、機能させるアクション指定
 
   def show
     @book = Book.find(params[:id])
@@ -50,10 +50,10 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :star)
+    params.require(:book).permit(:title, :body, :tag, :star)
   end
 
-  def ensure_correct_user
+  def ensure_correct_user #before_actionによる定義。ログイン中のユーザーを判別する定義
     @book = Book.find(params[:id])
     unless @book.user == current_user
       redirect_to books_path

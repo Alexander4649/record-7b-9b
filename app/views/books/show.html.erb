@@ -17,9 +17,18 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
+          
+          <!--タグ機能(リンク付)-->
+          <td><%= link_to @book.tag, %></td>
+          
+          <!--コメント数カウント機能-->
           <td>コメント数: <%= @book.book_comments.count %></td>
+          
+          <!--イイね機能-->
           <td id="favorite_buttons_<%= @book.id %>">
               <%= render "favorites/favorite", book: @book %></td>
+          
+          <!--星評価設定-->
           <td>
             <div id="star-rate<%= @book.id%>"></td>
              <script>
@@ -35,6 +44,7 @@
              </script>
           </td>
           
+          <!--編集・削除機能追加設定(ログイン中のユーザーにのみ)-->
           <% if @book.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success edit_book_#{@book.id}" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger destroy_book_#{@book.id}"%></td>
@@ -42,6 +52,8 @@
         </tr>
       </table>
       
+      
+      <!--非同期通信設定-->
       <div id="book_comment_remote">
       <%= render "book_comments/index", book: @book %>
       </div>
