@@ -20,6 +20,10 @@ class Book < ApplicationRecord
   # nameは検索対象であるusersテーブル内のカラム名
   # titleは検索対象であるbooksテーブル内のカラム名
   
+  # def self.last_week # メソッド名は何でも良いです
+  # Book.joins(:favorites).where(favorites: { created_at:　0.days.ago.prev_week..0.days.ago.prev_week(:sunday)}).group(:id).reorder("count(*) desc")
+  # end
+  
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
   validates :star,presence:true

@@ -8,16 +8,35 @@ class BooksController < ApplicationController
   end
 
   def index
-   if params[:latest]
-      @books = Book.latest
-  # elsif params[:old]
-  #     @books = Book.old
+
+   if    params[:latest]
+         @books = Book.latest
    elsif params[:star_count]
-      @books = Book.star_count
-   else
-      @books = Book.all
+         @books = Book.star_count
+   elsif params[:favorite]
+         @books = Book.favorite
+   else  @books = Book.find(Favorite.group(:book_id).where(created_at: Time.current.all_week).order('count(book_id) desc').pluck(:book_id))
+   
    end
-      @book = Book.new
+         @book = Book.new
+  end
+  
+# Postモデルから()内のデータを探してくる
+# Post.find()
+# 次にLikeモデルのpost_idが同じものをまとめる
+# Like.group(:post_id)
+# #投稿が作られた日が今週のデータのみ抽出
+# where(created_at: Time.current.all_week)
+# まとめたものをpost_idの多い順に並び替える
+# order('count(post_id) desc')
+# そのままだとLikeモデルで取り出してしまうので、post_idで値を取りだす
+# pluck(:post_id)
+
+# elsif params[:old]
+#     @books = Book.old
+  
+  def weekly_rank
+  @books = Book.last_week
   end
 
   def create
