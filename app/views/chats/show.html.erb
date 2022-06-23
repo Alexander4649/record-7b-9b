@@ -1,0 +1,45 @@
+<div class='container px-5 px-sm-0'>
+  <div class='row'>
+    <div class='col-md-20'>
+          
+            <h2 nowrap>「<%= @user.name %>」さんとのチャット</h2>
+
+            <table class="message table">
+              <thead>
+                <tr>
+                  <th style="text-align: left; font-size: 20px;">
+                    <%= link_to current_user.name,@current_user %></th>
+                  <th style="text-align: right; font-size: 20px;">
+                    <%= link_to @user.name , @user %></th>
+                </tr>
+              </thead>
+              <% @chats.each do |chat| %>
+                <% if chat.user_id == current_user.id %>
+                <tbody>
+                  <tr>
+                    <th>
+                      <p style="text-align: left;"><%= chat.message %></p>
+                    </th>
+                    <th></th>
+                  </tr>
+                <% else %>
+                  <tr>
+                    <th></th>
+                    <th>
+                      <p style="text-align: right;"><%= chat.message %></p>
+                    </th>
+                  </tr>
+                </tbody>
+                <% end %>
+              <% end %>
+            </table>
+            
+            <%= form_with model: @chat ,remote: true do |f| %>
+              <%= f.text_field :message %>
+              <%= f.hidden_field :room_id %>
+              <%= f.submit "送信", class:"btn btn-sm btn-success chat-btn" %>
+            <% end %>
+            
+        </div>
+    </div>
+</div>

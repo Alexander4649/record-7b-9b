@@ -17,6 +17,7 @@
 	  <th><%= link_to user.followers.count, user_followers_path(user) %></th>
 	</tr>
   <tr>
+    <!--フォロー・フォロワー機能-->
     <th nowrap>
         <% unless user == current_user %>
         <%# if current_user.following?(user) %>
@@ -30,9 +31,19 @@
         <% end %>
         <% end %>
         <% end %>
-    </tr>
+    </th>
+    
+    <!--チャット機能-->
+    <th nowrap> &emsp;
+      <% unless user.id == current_user.id %>
+      <% if (current_user.followed_by? @user) && (@user.followed_by? current_user)  %>
+      <%= link_to 'チャット始める', chat_path(@user.id), class: "btn btn-sm btn-primary" %>
+      <% end %>
+      <% end %>
+    </th>
+  </tr>
 </table>
-　
+<!--ユーザー編集-->
 <div class='row'>
   <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block edit_user_#{user.id}" do %>
     <i class="fas fa-user-cog"></i>

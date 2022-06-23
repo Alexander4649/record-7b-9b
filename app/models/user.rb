@@ -7,6 +7,10 @@ class User < ApplicationRecord
   has_many :books
   has_many :book_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  # has_many :messages, dependent: :destroy
+  # has_many :entries, dependent: :destroy
+  has_many :user_rooms, dependent: :destroy
+  has_many :chats, dependent: :destroy
   
   #1 フォローされる側なのか、フォローする側かのhas_manyかわからないので、foreign_keyを設定してフォローする側からのhas_manyだと認識させてあげる
   has_many :relationships, class_name: "Relationship",foreign_key: :following_id, dependent: :destroy
