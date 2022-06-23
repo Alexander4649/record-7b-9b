@@ -18,8 +18,8 @@
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
           
-          <!--タグ機能(リンク付)-->
-          <td><%= link_to @book.tag,search_path %></td>
+          <!--タグ機能-->
+          <td><%= @book.tag %></td>
           
           <!--イイね機能-->
           <td id="favorite_buttons_<%= @book.id %>">

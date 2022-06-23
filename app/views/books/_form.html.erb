@@ -13,6 +13,7 @@
     <%= f.text_field :tag, class: 'form-control book_tag' %>
   </div>
   
+  <% if book.id === nil %>
    <div class="form-group" id="star">
     <%= f.label :star,'Rate ', class:'col-md-3 col-form-label' %>
     <%= f.hidden_field :star, id: :review_star %>
@@ -27,6 +28,7 @@
     half: false,
   });
   </script>
+  <% end %>
   <!--$('#star').empty();        #これがないとブラウザバックで星が増え続ける不具合が発生します。詳しくは参考にした記事を参照ください。　
        scoreName: 'book[star]',  #これがbookモデルのstarカラムへ値を保存という意味になる。
        half: false, 　　　　　 　#今回は５段階評価で⭐️半分評価は入力できないように設定します。-->
