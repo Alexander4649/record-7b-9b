@@ -8,8 +8,8 @@ class RelationshipsController < ApplicationController
     #following = current_user.followers(@user)
     following = current_user.relationships.new(follower_id:params[:user_id])
     following.save
-    redirect_to request.referer || root_path
-    
+    #redirect_to request.referer || root_path, :status => 302
+    redirect_back(fallback_location: root_path, :status => 302)
     # current_user.follow(params[:user_id])
     # redirect_to request.referer
   end
@@ -17,8 +17,8 @@ class RelationshipsController < ApplicationController
   def destroy
     following = current_user.relationships.find_by(follower_id:params[:user_id])
     following.destroy
-    redirect_to request.referer || root_path
-    
+    #redirect_to request.referer || root_path
+    redirect_back(fallback_location: root_path, :status => 302)
     # current_user.unfollow(params[:user_id])
     # redirect_to request.referer 
   end
