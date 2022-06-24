@@ -1,7 +1,12 @@
 class Book < ApplicationRecord
+  # 閲覧数設定 gem適用 =>showアクションにつながる
+  is_impressionable
+  
+  # アソシエーション設定
   belongs_to :user
   has_many :book_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  
   
   # 検索方法分岐
   def self.looks(search, word)
@@ -24,10 +29,12 @@ class Book < ApplicationRecord
   # Book.joins(:favorites).where(favorites: { created_at:　0.days.ago.prev_week..0.days.ago.prev_week(:sunday)}).group(:id).reorder("count(*) desc")
   # end
   
+  # バリデーション設定
   validates :title,presence:true
   validates :body,presence:true,length:{maximum:200}
   validates :star,presence:true
  
+# 並び順設定
   scope :latest, -> {order(created_at: :desc)} 
   # scope :old, -> {order(created_at: :asc)}
   scope :star_count, -> {order(star: :desc)}
@@ -38,6 +45,7 @@ class Book < ApplicationRecord
 # desc・・・昇順
 # asc・・・降順
   
+# イイね機能設定
   def favorited_by?(user)
     favorites.where(user_id: user.id).exists?
   end

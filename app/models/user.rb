@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+         
 
   has_many :books
   has_many :book_comments, dependent: :destroy
@@ -18,7 +19,7 @@ class User < ApplicationRecord
   #1とは逆にフォローされる側からのhas_manyだと認識させてあげるが、relationshipsと記述すると、フォローする側のアソシエーションと重複してしまうので、reverse_of_を使用する
   #但し、reverse_of_relationshipsのテーブルを見つけようとするので、class_nameを使ってrelationshipテーブルであると認識させる。
   
-  #フォローしている人全員の情報を取得するので、任意名ですが、followedと記述
+  #フォローしている人全員の情報を取得するので、任意名ですが、followingsと記述
   #has_many_throughにて中間テーブルを経由して情報を持ってくる際に使用する。その為、今回はrelationshipsと記述
   #relationshipsから何の情報をとってくるのか、これを指定する際にsourceを使用する
   #あるアカウントがフォローしている情報をリレーションシップの中間テーブルを経由してフォローされる側の情報を抽出するという記述の意味となる。

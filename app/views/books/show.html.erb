@@ -43,6 +43,7 @@
                });
              </script>
           </td>
+          <td>閲覧数:<%= @book.impressionist_count %></td>
           
           <!--編集・削除機能追加設定(ログイン中のユーザーにのみ)-->
           <% if @book.user == current_user %>

@@ -1,10 +1,13 @@
 class BooksController < ApplicationController
   before_action :authenticate_user! #ログイン中か確認
   before_action :ensure_correct_user, only: [:edit, :update, :destroy] #ログイン中のユーザーにのみ、機能させるアクション指定
+  impressionist :actions=> [:show] # showアクションを閲覧した際にgem「impressionist」アクションを使用
 
   def show
     @book = Book.find(params[:id])
     @book_comment = BookComment.new
+    @user = User.find(user_id)
+    impressionist(@book, nil, unique: [:session_hash]) #閲覧カウント(unique)(どの値で計測するかを書く)を同じブラウザからアクセス）した複数回、同じ記事をみた場合は1PVと数える
   end
 
   def index
