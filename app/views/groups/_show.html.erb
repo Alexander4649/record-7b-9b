@@ -9,12 +9,12 @@
       <td><%= group.name %></td>
       <td><%= group.introduction %></td>
       <td>
-        <% group.users. each do |member| %>
+        <% group.users.each do |member| %>
         <p><%= member.name %></p>
         <% end %>
       </td>
       <td nowrap>
-        <%# if current_user.group_join_by?(user) %>
+       <% if group.owner_id != current_user.id %>
         <% if group.users.include?(current_user) %>
          <%= link_to group_path(group), method: :delete do %>
          <button class = "btn btn-danger">Leave this group</button>
@@ -24,6 +24,7 @@
          <button class = "btn btn-success">Join this group</button>
          <% end %>
         <% end %>
+       <% end %>
       </td>
       <td><% if group.owner_id == current_user.id %>
           <%= link_to 'Edit', edit_group_path(group), class: "btn btn-sm btn-success " %>
