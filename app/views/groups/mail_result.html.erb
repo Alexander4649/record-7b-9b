@@ -1,0 +1,16 @@
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+      <br>
+      <h2>送信が完了しました</h2>
+      <br>
+      <h4>内容は以下の通りです。</h4>
+      <%= form_with model:@group,local:true do |f| %>
+       [<%= f.label :タイトル %>]
+       <strong><%= f.name, class: 'form-control name' %></strong>
+       <br>
+       [<%= f.label :本文 %>]
+       <strong><%= f.introduction, class: 'form-control introduction' %></strong>
+    </div>
+  </div>
+</div>
