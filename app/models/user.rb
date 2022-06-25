@@ -12,6 +12,8 @@ class User < ApplicationRecord
   # has_many :entries, dependent: :destroy
   has_many :user_rooms, dependent: :destroy
   has_many :chats, dependent: :destroy
+  has_many :group_users
+  has_many :groups,through: :group_users
   
   #1 フォローされる側なのか、フォローする側かのhas_manyかわからないので、foreign_keyを設定してフォローする側からのhas_manyだと認識させてあげる
   has_many :relationships, class_name: "Relationship",foreign_key: :following_id, dependent: :destroy
