@@ -62,9 +62,6 @@ class User < ApplicationRecord
     end
   end
   
-   scope :created_at, -> (created_at) { where('created_at LIKE ?', "%#{created_at}%") if created_at.present? }  #scopeを定義。
-  
-  
   
   has_one_attached :profile_image
 
