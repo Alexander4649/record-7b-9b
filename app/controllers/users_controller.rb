@@ -14,11 +14,11 @@ class UsersController < ApplicationController
     @last_week_book = @books.created_last_week
   end
   
-  def daily_posts
+  def search_form
     
     @user = User.find(params[:user_id])
     @books = @user.books.where(created_at: params[:created_at].to_date.all_day)
-    render :daily_posts_form
+    render :search_form
     # if params[:created_at] == ""
     #   @search_book = "日付を選択してください"
     # else

@@ -11,8 +11,8 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
   end
   resources :users, only: [:index,:show,:edit,:update] do
+    get "search_form" => "users#search_form"
     resource :relationships,only: [:create,:destroy]
-    get "daily_posts" => "users#daily_posts"
     # get :followings, on: :member
     # get :followers, on: :member
     #あるユーザーがフォローする人全員を表示するルーティング

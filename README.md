@@ -9,3 +9,5 @@
 【&emsp;】：全角スペースとほぼ同じサイズの空白
 
 〜〜〜課題9b 指定日の投稿数を非同期通信化表示〜〜〜
+
+https://qiita.com/Alexander4649/items/7fadeae45d652df86508

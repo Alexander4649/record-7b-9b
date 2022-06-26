@@ -1,6 +1,6 @@
 <br>
 <div class='col-md-5'>
-  <%= form_with url: user_daily_posts_path(user), method: :get, class: "row justify-content-center", local: false do |f| %>
+  <%= form_with url: user_search_form_path(user), method: :get, class: "row justify-content-center", local: false do |f| %>
     <div class="col-auto">
       <%= f.date_field :created_at, class: "form-control" %>
     </div>
@@ -10,5 +10,5 @@
   <% end %>
 </div>
 <br>
-<div class="daily_posts_table">
+<div class="search_form_table">
 </div>
