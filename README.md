@@ -15,10 +15,13 @@ gem 'chartkick'
 gem 'groupdate' 追記 => bundle
 
 * application.jsファイルに追記
-//= require chartkick
-//= require Chart.bundle
+import Chart from 'chart.js/auto';
+import jQuery from "jquery"
+global.$ = jQuery;
+window.$ = jQuery;
+global.Chart = Chart;
 
-* Turbolinksの無効化
+* Turbolinksの無効化 (showに記述すれば編集する必要なし)
 application.jsファイル編集
 gemfile編集
 application.html.erbファイル編集
@@ -116,3 +119,50 @@ application.html.erbファイル編集
         },
     });
 </script>
+
+〜〜〜回答の例〜〜〜
+  <canvas id="myLineChart"></canvas>
+  <script>
+    $(document).on('turbolinks:load', function() {
+      var ctx = document.getElementById("myLineChart");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+          datasets: [
+            {
+              label: '投稿した本の数',
+              data: [
+                <%= @books.created_6days.count %>,
+                <%= @books.created_5days.count %>, 
+                <%= @books.created_4days.count %>, 
+                <%= @books.created_3days.count %>, 
+                <%= @books.created_2days.count %>, 
+                <%= @books.created_yesterday.count %>, 
+                <%= @books.created_today.count %>
+              ],
+              borderColor: "rgba(0,0,255,1)",
+              backgroundColor: "rgba(0,0,0,0)",
+              tension: 0.4
+            }
+          ],
+        },
+        options: {
+          title: {
+            display: true,
+            text: '7日間の投稿数の比較'
+          },
+          responsive: true,
+          scales: {
+            y:{
+              suggestedMin: 0,
+              suggestedMax: 10
+            },
+            x:{
+              stacked: true
+            },
+          },
+        }
+      });
+    });
+  </script>

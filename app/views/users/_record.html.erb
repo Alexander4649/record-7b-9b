@@ -51,9 +51,9 @@
      </tr>
   </table>
 
- <canvas id="myLineChart"></canvas>
+   <canvas id="myLineChart"></canvas>
   <script>
-      $(document).on('turbolinks:load', function() {
+    $(document).on('turbolinks:load', function() {
       var ctx = document.getElementById("myLineChart");
       var myLineChart = new Chart(ctx, {
         type: 'line',
@@ -62,9 +62,18 @@
           datasets: [
             {
               label: '投稿した本の数',
-              data: [<%= @books.created_6days.count %>, <%= @books.created_5days.count %>, <%= @books.created_4days.count %>, <%= @books.created_3days.count %>, <%= @books.created_2days.count %>, <%= @yesterday_book.count %>, <%= @today_book.count%>],
+              data: [
+                <%= @books.created_6days.count %>,
+                <%= @books.created_5days.count %>, 
+                <%= @books.created_4days.count %>, 
+                <%= @books.created_3days.count %>, 
+                <%= @books.created_2days.count %>, 
+                <%= @books.created_yesterday.count %>, 
+                <%= @books.created_today.count %>
+              ],
               borderColor: "rgba(0,0,255,1)",
-              backgroundColor: "rgba(0,0,0,0)"
+              backgroundColor: "rgba(0,0,0,0)",
+              tension: 0.4
             }
           ],
         },
@@ -73,20 +82,17 @@
             display: true,
             text: '7日間の投稿数の比較'
           },
+          responsive: true,
           scales: {
-            yAxes: [{
-              ticks: {
-                suggestedMax: 10,
-                suggestedMin: 0,
-                stepSize: 1,
-                callback: function(value, index, values){
-                  return  value
-                }
-              }
-            }]
+            y:{
+              suggestedMin: 0,
+              suggestedMax: 10
+            },
+            x:{
+              stacked: true
+            },
           },
         }
       });
     });
   </script>
-  
