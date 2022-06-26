@@ -14,7 +14,7 @@ gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 5.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+gem 'turbolinks', '~> 5' #グラフ適用の為に一時的に
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
@@ -57,3 +57,6 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'impressionist'
 gem 'dotenv-rails'
+gem 'chartkick'
+gem 'groupdate'
+gem 'chart-js-rails', '~> 0.1.4'

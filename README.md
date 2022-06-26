@@ -8,54 +8,111 @@
 【&ensp;】：半角スペースより間隔がやや広い空白
 【&emsp;】：全角スペースとほぼ同じサイズの空白
 
-〜〜〜課題7b 投稿数掲載〜〜〜
-* 投稿数をカウントする => <%= current_user.books.where('created_at > ?', Date.today).count %>
-current_user：deviseを使用しているのでそのまま使います
-books：アソシエーションを組んでいるので「現在のユーザーが投稿した本」になります
-where：whereの使い方はこちら
-'created_at > ?': usersカラムにて生成される記述を引用。これでuserがcreateした記録をとっているはず
-Date.today:「今日」を表しているクラスです。Date.newで週、月、年を表示できます。
-.count：これが数を数ええるメソッドです。
+〜〜〜課題8b 投稿数グラフ化〜〜〜
 
-〜〜〜上だとできなかったので〜〜〜
-* bookモデルに
-# 投稿数設定 => users_controllerにて使用
-  scope :created_today, -> { where(created_at: Time.zone.now.all_day) } 
-  scope :created_yesterday, -> { where(created_at: 1.day.ago.all_day) } 
-  scope :created_this_week, -> { where(created_at: 6.day.ago.beginning_of_day..Time.zone.now.end_of_day) } 
-  scope :created_last_week, -> { where(created_at: 2.week.ago.beginning_of_day..1.week.ago.end_of_day) } 
-~~
-* Userコントローラに
- @today_book =  @books.created_today
-    @yesterday_book = @books.created_yesterday
-    @this_week_book = @books.created_this_week
-    @last_week_book = @books.created_last_week
-~~
-* Viewに
-<tr>
-      <td><%= @today_book.count %></td>
-      <td><%= @yesterday_book.count %></td>
-      <% if @yesterday_book.count == 0 %>
-      <%# if @today_book.count == 0 %>
-        <td> 0 % </td>
-      <% else %>
-        <td><%= @the_day_before = @today_book.count / @yesterday_book.count.to_f  %>
-          <%#= @the_day_before = @yesterday_book.count / @today_book.count %>
-       　  <%= (@the_day_before * 100).round %>%</td>
-      <% end %></td>
-    </tr>
+* gemインストール
+gem 'chartkick'
+gem 'groupdate' 追記 => bundle
+
+* application.jsファイルに追記
+//= require chartkick
+//= require Chart.bundle
+
+* Turbolinksの無効化
+application.jsファイル編集
+gemfile編集
+application.html.erbファイル編集
 
 
-<tr>
-      <td><%= @this_week_book.count %></td>
-      <td><%= @last_week_book.count %></td>
-     <% if @last_week_book.count == 0 %>
-      <td> 0 % </td>
-     <% else %>
-       <td><% @the_week_before = @this_week_book.count / @last_week_book.count.to_f %>
-           <%= (@the_week_before * 100).round %>%</td>
-     <% end %>
-    </tr>
+* book.rb にて2日〜6日前の投稿データを取得する為の記述
+ scope :created_2days, -> { where(created_at: 2.days.ago.all_day) } 
+ scope :created_3days, -> { where(created_at: 3.days.ago.all_day) } 
+ scope :created_4days, -> { where(created_at: 4.days.ago.all_day) } 
+ scope :created_5days, -> { where(created_at: 5.days.ago.all_day) } 
+ scope :created_6days, -> { where(created_at: 6.days.ago.all_day) } 
 
-~テーブルに枠線をつける~
+* Viweにて表と折線グラフの記述
+
+〜表〜
 <table class='table table-bordered'>
+    <th>6日前</th>
+    <th>5日前</th>
+    <th>4日前</th>
+    <th>3日前</th>
+    <th>2日前</th>
+    <th>1日前</th>
+    <th>今日</th>
+     <tr>
+       <th><%= @books.created_6days.count %></th>
+       <th><%= @books.created_5days.count %></th>
+       <th><%= @books.created_4days.count %></th>
+       <th><%= @books.created_3days.count %></th>
+       <th><%= @books.created_2days.count %></th>
+       <th><%= @yesterday_book.count %></th>
+       <th><%= @today_book.count %></th>
+     </tr>
+  </table>
+  
+〜折線〜
+
+* turbolinks部分削除
+
+ <canvas id="myLineChart"></canvas>
+  <script>
+      $(document).on('turbolinks:load', function() {
+      var ctx = document.getElementById("myLineChart");
+      var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+          datasets: [
+            {
+              label: '投稿した本の数',
+              data: [<%= @books.created_6days.count %>, <%= @books.created_5days.count %>, <%= @books.created_4days.count %>, <%= @books.created_3days.count %>, <%= @books.created_2days.count %>, <%= @yesterday_book.count %>, <%= @today_book.count%>],
+              borderColor: "rgba(0,0,255,1)",
+              backgroundColor: "rgba(0,0,0,0)"
+            }
+          ],
+        },
+        options: {
+          title: {
+            display: true,
+            text: '7日間の投稿数の比較'
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                suggestedMax: 10,
+                suggestedMin: 0,
+                stepSize: 1,
+                callback: function(value, index, values){
+                  return  value
+                }
+              }
+            }]
+          },
+        }
+      });
+    });
+  </script>
+  
+* turbolinks全削除での記述
+
+<canvas id="myChart" width="300" height="100"> </canvas>
+
+    <script> 
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',                      
+        data: {
+            labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+            datasets: [{
+                label: "投稿数",
+                data: [<%= @books.created_6days.count %>, <%= @books.created_5days.count %>, <%= @books.created_4days.count %>, <%= @books.created_3days.count %>, <%= @books.created_2days.count %>, <%= @yesterday_book.count %>, <%= @today_book.count%>],
+                backgroundColor: 'rgba(255, 80, 120, 1.0)',
+                borderColor: 'rgba(255, 80, 120, 1.0)',
+                fill: false
+            }]
+        },
+    });
+</script>

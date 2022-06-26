@@ -13,6 +13,7 @@ class UsersController < ApplicationController
     @this_week_book = @books.created_this_week
     @last_week_book = @books.created_last_week
     
+    
   end
 
   def index
