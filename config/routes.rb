@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
   resources :users, only: [:index,:show,:edit,:update] do
     resource :relationships,only: [:create,:destroy]
+    get "search" => "users#search"
     # get :followings, on: :member
     # get :followers, on: :member
     #あるユーザーがフォローする人全員を表示するルーティング

@@ -15,6 +15,8 @@ class SearchesController < ApplicationController
     
     @books = Book.where(tag: params[:word])
     
+    
+    
   end
 end
 
